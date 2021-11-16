@@ -1,0 +1,36 @@
+{
+  "name": "dashboard",
+  "private": "true",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "npm test -- --coverage --watchAll=false",
+    "start": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@vaadin/vaadin-icons": "^20.0.0",
+    "babel-jest": "^25.5.1",
+    "jest": "^25.5.3",
+    "lit-element": "^2.5.1",
+    "vite": "^2.3.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Team 2423",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {}
+}
