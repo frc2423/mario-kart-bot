@@ -16,7 +16,7 @@ myCounter.props = {
   count: {
     type: Number,
     reflect: true,
-    value: 0
+    value: 0,
   }
 };
 
