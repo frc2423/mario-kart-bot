@@ -4,7 +4,14 @@
 
 package frc.robot;
 
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,6 +27,11 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  private CANPIDController leftPidController;
+  private CANPIDController rightPidController;
+
+  private XboxController joystick;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -29,8 +41,37 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    CANSparkMax leftFollowerMotor = new CANSparkMax(1, MotorType.kBrushless);
+    CANSparkMax leftLeadMotor = new CANSparkMax(4, MotorType.kBrushless);
+    CANSparkMax rightFollowerMotor = new CANSparkMax(6, MotorType.kBrushless);
+    CANSparkMax rightLeadMotor = new CANSparkMax(5, MotorType.kBrushless);
+
+    leftPidController = leftLeadMotor.getPIDController();
+    rightPidController = rightLeadMotor.getPIDController();
+
+    leftFollowerMotor.restoreFactoryDefaults();
+    leftLeadMotor.restoreFactoryDefaults();
+    rightFollowerMotor.restoreFactoryDefaults();
+    rightLeadMotor.restoreFactoryDefaults();
+
+    leftFollowerMotor.follow(leftLeadMotor);
+    rightFollowerMotor.follow(rightLeadMotor);
+
+    joystick = new XboxController(0);
   }
 
+  public void tank(double leftFeetPerSecond, double rightFeetPerSecond) {
+    leftPidController.setReference(leftFeetPerSecond, ControlType.kVelocity);
+    rightPidController.setReference(rightFeetPerSecond, ControlType.kVelocity);
+  }
+
+  public void arcade(double speed, double turn) {
+    double[] speeds = DriveHelper.getArcadeSpeeds(speed, turn, false);
+    double leftSpeed = speeds[0] * Constants.MAX_SPEED;
+    double rightSpeed = speeds[1] * Constants.MAX_SPEED;
+    tank(leftSpeed, rightSpeed);
+  }
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
@@ -39,7 +80,9 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
@@ -78,7 +121,12 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double x = joystick.getX(Hand.kRight);
+    double y = joystick.getY(Hand.kLeft);
+
+    arcade(x, y);
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
