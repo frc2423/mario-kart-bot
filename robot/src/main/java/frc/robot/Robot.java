@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.util.DriveHelper;
 
 public class Robot extends TimedRobot {
 
@@ -43,8 +44,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // joystick.getY()
-    leftMotor.setPercent(joystick.getRawAxis(1) * .5);
-    rightMotor.setPercent(joystick.getRawAxis(5) * .5);
+    double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), false);
+    leftMotor.setPercent(arcadeSpeeds[0]);
+    rightMotor.setPercent(arcadeSpeeds[1]);
   }
 
   /** This function is called once when the robot is disabled. */
