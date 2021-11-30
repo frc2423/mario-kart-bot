@@ -25,7 +25,7 @@ public class ColorSensor {
         colorMatcher.setConfidenceThreshold(confidence);
     }
 
-    public void addColor(String name ,double r, double g, double b){
+    public void addColor(String name, double r, double g, double b){
         Color color = ColorMatch.makeColor(r, g, b);
         colors.put(name, color);
         colorMatcher.addColorMatch(color);

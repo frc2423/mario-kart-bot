@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   /**
@@ -79,29 +78,44 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     System.out.println("Teleop init");
     // set confidence interval
-    Robot.colorSensor.setConfidence(0.8);
-    Robot.colorSensor.addColor("Green",0,1,0);
-    Robot.colorSensor.addColor("Yellow",1,1,0);
-    Robot.colorSensor.addColor("Blue",0,0,1);
-    Robot.colorSensor.addColor("Purple",1,0,1);
+    colorSensor.setConfidence(0.8);
+    colorSensor.addColor("Green",0.25,.62,0.13);
+    colorSensor.addColor("Yellow",0.47,0.47,0.06);
+    colorSensor.addColor("Blue",0,0,1);
+    colorSensor.addColor("Purple",1,0,1);
+    colorSensor.addColor("Carpet",0.33,0.47,0.2);
     // register colors
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if(Robot.colorSensor.isColor("Green")){
-      // slow down!
+
+     System.out.println("color " + colorSensor.getRawColor().red +"  " +colorSensor.getRawColor().green +"  "+ colorSensor.getRawColor().blue);
+
+    if (colorSensor.isColor("Green")){
+      System.out.println("Green");  
     }
-    else if(Robot.colorSensor.isColor("Yellow")){
-      // spin!
+    else if (colorSensor.isColor("Yellow")){
+      System.out.println("Yellow");
     }
-    else if(Robot.colorSensor.isColor("Blue")){
-      // speed up!
+    else if (colorSensor.isColor("Carpet")){
+      System.out.println("Carpet");
     }
-    else{
-      // normal speed!
-    }
+
+
+    // if(colorSensor.isColor("Green")){
+    //   // slow down!
+    // }
+    // else if(colorSensor.isColor("Yellow")){
+    //   // spin!
+    // }
+    // else if(colorSensor.isColor("Blue")){
+    //   // speed up!
+    // }
+    // else{
+    //   // normal speed!
+    // }
   }
 
   /** This function is called once when the robot is disabled. */
