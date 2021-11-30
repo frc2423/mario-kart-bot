@@ -1,26 +1,61 @@
 package frc.robot;
+
+import com.revrobotics.ColorSensorV3;
+
+import java.util.HashMap;
+
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.util.Color;
-import com.revrobotics.ColorSensorV3;
-// import frc.team2423.devices.Device;
 import edu.wpi.first.wpilibj.I2C;
 
+
 public class ColorSensor {
-    private ColorSensorV3 mySensor;
+
+    private ColorSensorV3 colorSensor;
+    private ColorMatch colorMatcher;
+    private HashMap<String, Color> colors = new HashMap<String, Color>();
 
     public ColorSensor(){
-        mySensor = new ColorSensorV3(I2C.Port.kOnboard);
+        colorSensor = new ColorSensorV3(I2C.Port.kOnboard); // idk waht this means
+        colorMatcher =  new ColorMatch();
     }
 
-    public boolean isMatch(double r,double g, double b){
-        // return whether or not the colors match, specifically if they match the current color of the sensor
-        return true;
+    public void setConfidence(double confidence){
+        colorMatcher.setConfidenceThreshold(confidence);
     }
 
-    public void confidenceInterval(double interval){
-        // set the confidence interval
+    public void addColor(String name ,double r, double g, double b){
+        Color color = ColorMatch.makeColor(r, g, b);
+        colors.put(name, color);
+        colorMatcher.addColorMatch(color);
     }
-    
-    
+
+    public Color getColor(){
+        Color detectedColor = colorSensor.getColor();
+        ColorMatchResult out = colorMatcher.matchColor(detectedColor);
+        if(out != null) {
+            return out.color;
+        }
+        return null;
+    }
+
+    public Color getRawColor(){
+        return colorSensor.getColor();
+    }
+
+    public boolean isColor(String name){ // mmmmmmm bri'ish
+        if(!colors.containsKey(name)){
+            return false;
+        }
+        Color colour = getColor();
+        if(colour == null) {
+            return false;
+        }            
+        return colour.equals(colors.get(name));
+  
+    }
+
+
+
 }
