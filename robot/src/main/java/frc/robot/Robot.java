@@ -10,11 +10,15 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.util.DriveHelper;
 
+import java.lang.Math;
+
 public class Robot extends TimedRobot {
 
   XboxController joystick = new XboxController(0);
   NeoMotor leftMotor = new NeoMotor(3);
   NeoMotor rightMotor = new NeoMotor(4);
+  double LeftMotorSpin;
+  double RightMotorSpin;
 
   private static ColorSensor colorSensor = new ColorSensor();
   
@@ -58,29 +62,16 @@ public class Robot extends TimedRobot {
   }
 
 /** This function is called periodically during operator control. */
-@Override
-public void teleopPeriodic() {
-
-   System.out.println("color " + colorSensor.getRawColor().red +"  " +colorSensor.getRawColor().green +"  "+ colorSensor.getRawColor().blue);
-
-  if (colorSensor.isColor("Green")){
-    System.out.println("Green");  
-  }
-  else if (colorSensor.isColor("Yellow")){
-    System.out.println("Yellow");
-  }
-  else if (colorSensor.isColor("Carpet")){
-    System.out.println("Carpet");
-  }
-  
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     // joystick.getY()
     double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), false);
-    leftMotor.setPercent(arcadeSpeeds[0]);
-    rightMotor.setPercent(arcadeSpeeds[1]);
+    LeftMotorSpin = arcadeSpeeds[0];
+    RightMotorSpin = arcadeSpeeds[1];
+    leftMotor.setPercent(LeftMotorSpin);
+    rightMotor.setPercent(RightMotorSpin);
 
     System.out.println("color " + colorSensor.getRawColor().red +"  " +colorSensor.getRawColor().green +"  "+ colorSensor.getRawColor().blue);
 
@@ -99,13 +90,16 @@ public void teleopPeriodic() {
     }
     else if(Robot.colorSensor.isColor("Yellow")){
       // spin!
+
     }
     else if(Robot.colorSensor.isColor("Blue")){
       // speed up!
     }
     else{
       // normal speed!
-    }
+    }    
+    leftMotor.setPercent(LeftMotorSpin);
+    rightMotor.setPercent(RightMotorSpin);
   }
 
   /** This function is called once when the robot is disabled. */
@@ -130,4 +124,11 @@ public void teleopPeriodic() {
 
   @Override
   public void simulationInit() {}
+
+  public void Banana (){
+  int SpinDirection =  (Math.random()*2) - 1;
+  double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(),SpinDirection, false);
+  leftMotor.setPercent(arcadeSpeeds[0]);
+  rightMotor.setPercent(arcadeSpeeds[1]);
+  }
 }
