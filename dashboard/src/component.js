@@ -12,13 +12,13 @@ function myCounter() {
   const [max] = useProp("max");
 
   const add = () => {
-    if (count < 10){
+    if (count < max){
     setCount(count + 1)
     }
   };
 
   const sub = () => {
-    if (count > -10){
+    if (count > min){
       setCount(count-1)
     }
   };
@@ -38,10 +38,15 @@ myCounter.props = {
     reflect: true,
     value: 0,
   },
-  count: {
+  min: {
     type: Number,
     reflect: true,
-    value: 0,
+    value: -1,
+  },
+  max: {
+    type: Number,
+    reflect: true,
+    value: 1,
   },
 };
 
