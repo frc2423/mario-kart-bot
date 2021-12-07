@@ -9,12 +9,15 @@ import edu.wpi.first.wpilibj.util.Color;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.util.DriveHelper;
+import frc.robot.util.NtHelper;
 
 public class Robot extends TimedRobot {
 
   XboxController joystick = new XboxController(0);
   NeoMotor leftMotor = new NeoMotor(3);
   NeoMotor rightMotor = new NeoMotor(4);
+  double lap = 0;
+  int lastseen = 1; // pink = 0 orange = 1
 
   private static ColorSensor colorSensor = new ColorSensor();
 
@@ -54,6 +57,8 @@ public class Robot extends TimedRobot {
     colorSensor.addColor("Blue", 0, 0, 1);
     colorSensor.addColor("Purple", 1, 0, 1);
     colorSensor.addColor("Carpet", 0.33, 0.47, 0.2);
+    colorSensor.addColor("Pink", .75, 0, 0);
+    colorSensor.addColor("Orange", .75, .25, 0);
     // register colors
   }
 
@@ -70,6 +75,17 @@ public class Robot extends TimedRobot {
       System.out.println("Yellow");
     } else if (colorSensor.isColor("Carpet")) {
       System.out.println("Carpet");
+    }
+
+
+    if (colorSensor.isColor("Pink")) {
+     if (lastseen==1){
+       lap++;
+       NtHelper.setDouble("/robot/marioCart", lap);
+       lastseen = 0;
+     }
+    } else if (colorSensor.isColor("Orange")) {
+      if (lastseen==0) lastseen = 1;
     }
 
     // joystick.getY()
