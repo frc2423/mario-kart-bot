@@ -4,6 +4,10 @@ import java.lang.reflect.Method;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 
+/**
+ * Stinky State Machine Master Class (SSMMC)
+ * @author Willow
+ */
 public class StateMachine {
 
   private HashMap<String, Method> states;
@@ -20,13 +24,11 @@ public class StateMachine {
         // Gathers each method that has InitState annotations
         if(annotation instanceof InitState){
           InitState myAnnotation = (InitState) annotation;
-          //System.out.println("state name: " + myAnnotation.name());
           states.put(myAnnotation.name(), method);
         }
         // Gathers each method that has RunState annotations
         if(annotation instanceof RunState){
           RunState myAnnotation = (RunState) annotation;
-          //System.out.println("endState name: " + myAnnotation.name());
           runStates.put(myAnnotation.name(), method);
         }
       }
@@ -43,7 +45,7 @@ public class StateMachine {
   }
 
   /**
-  * Sets the current state.
+  * Sets the current state and initializes it.
   * @param name : String <i>name of the state</i>
   */
   public void setState(String name){
@@ -51,6 +53,30 @@ public class StateMachine {
     initState(name);
   }
 
+  /**
+  * Sets the current state.
+  * @param name : String <i>name of the state</i>
+  * @param init : boolean <i>initialize the state</i>
+  */
+  public void setState(String name, boolean init){
+    state = name;
+    if(init) initState(name);
+  }
+
+  // THESE TRY{} ARE MANDITORY FOR THE CODE TO COMPILE (I'm pretty sure) BUT MAY CAUSE PROBLEMS LATER
+  // BECAUSE IT THROWS ERRORS WHEN IT CAN'T FIND "name" IN THE HASHMAP. POTENTIALLY WE
+  // COULD HAVE A FUCTION DEFINED IN THE SUBCLASS THAT IS A 'base' STATE THAT, FOR THE EXAMPLE OF DRIVE CODE
+  // COULD BE SETTING THE SPEED AND TURN-RATE TO 0 SO THAT IF AN ERROR OCCURS IT STOPS MOVING INSTEAD OF 
+  // POTENTIALLY CAUSING PROBLEMS BY HALTING PERIODIC CHANGES (I hope this made sense)
+
+  // You could probabaly do another Annotation @ErrorState() that is run instead of @RunState(name)
+  // In case of NullPointerException
+
+
+  /**
+   * Calls annotated <i>@InitState</i> method of <i>name</i> state.
+   * @param name : String <i>name of state</i>
+   */
   public void initState(String name){
     try {
       Object returnObject = states.get(name).invoke(this);
@@ -59,6 +85,10 @@ public class StateMachine {
     }
   }
 
+  /**
+   * Calls annotated <i>@RunState</i> method of <i>name</i> state.
+   * @param name : String <i>name of state</i>
+   */
   public void runState(String name){
     try {
       Object returnObject = runStates.get(name).invoke(this);
