@@ -5,10 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.util.Color;
+// import edu.wpi.first.wpilibj.util.Color;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.util.DriveHelper;
+import frc.robot.util.NtHelper;
 
 public class Robot extends TimedRobot {
 
@@ -57,6 +59,10 @@ public class Robot extends TimedRobot {
     // register colors
   }
 
+/** This function is called periodically during operator control. */
+// s
+  
+
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
@@ -64,41 +70,31 @@ public class Robot extends TimedRobot {
     System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
         + colorSensor.getRawColor().blue);
 
-    if (colorSensor.isColor("Green")) {
-      System.out.println("Green");
-    } else if (colorSensor.isColor("Yellow")) {
-      System.out.println("Yellow");
-    } else if (colorSensor.isColor("Carpet")) {
-      System.out.println("Carpet");
-    }
 
-    // joystick.getY()
-    double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), false);
-    leftMotor.setPercent(arcadeSpeeds[0]);
-    rightMotor.setPercent(arcadeSpeeds[1]);
+    //this block applies a deadband to the controler speeds and makes speed gradual (no wheelies)
+    double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), true);
+    double leftSpeed = DriveHelper.applyDeadband(arcadeSpeeds[0]);
+    double rightSpeed = DriveHelper.applyDeadband(arcadeSpeeds[1]);
+    leftMotor.setPercent(leftSpeed);
+    rightMotor.setPercent(rightSpeed);
+
 
     System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
         + colorSensor.getRawColor().blue);
 
-    if (colorSensor.isColor("Green")) {
+    Color bubble =  colorSensor.getRawColor();
+    NtHelper.setDouble("/robot/red", bubble.red);
+
+    if (colorSensor.isColor("Green")){
+      //** This function slows down motor speed to a quarter when the color green is spotted. */
       leftMotor.setPercent(.25);
-      rightMotor.setPercent(.25);
-      System.out.println("Green");
-    } else if (colorSensor.isColor("Yellow")) {
-      System.out.println("Yellow");
-    } else if (colorSensor.isColor("Carpet")) {
-      System.out.println("Carpet");
+      rightMotor.setPercent(.25);  
+    }else if (colorSensor.isColor("Carpet")){
+      leftMotor.setPercent(.50);
+      rightMotor.setPercent(.50);
     }
 
-    if (Robot.colorSensor.isColor("Green")) {
-      // slow down!
-    } else if (Robot.colorSensor.isColor("Yellow")) {
-      // spin!
-    } else if (Robot.colorSensor.isColor("Blue")) {
-      // speed up!
-    } else {
-      // normal speed!
-    }
+    
   }
 
   /** This function is called once when the robot is disabled. */
@@ -126,3 +122,4 @@ public class Robot extends TimedRobot {
   public void simulationInit() {
   }
 }
+//whenseegreenslowLISTENTOMEEEEEPLEASE
