@@ -70,32 +70,27 @@ public class Robot extends TimedRobot {
 
     marioStates.run();
 
-    System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
-        + colorSensor.getRawColor().blue);
+    // System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
+    //     + colorSensor.getRawColor().blue);
 
 
-    //this block applies a deadband to the controler speeds and makes speed gradual (no wheelies)
-    double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), true);
-    double leftSpeed = DriveHelper.applyDeadband(arcadeSpeeds[0]);
-    double rightSpeed = DriveHelper.applyDeadband(arcadeSpeeds[1]);
-    leftMotor.setPercent(leftSpeed);
-    rightMotor.setPercent(rightSpeed);
+    // //this block applies a deadband to the controler speeds and makes speed gradual (no wheelies)
 
 
-    System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
-        + colorSensor.getRawColor().blue);
+    // System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
+    //     + colorSensor.getRawColor().blue);
 
-    Color bubble =  colorSensor.getRawColor();
-    NtHelper.setDouble("/robot/red", bubble.red);
+    // Color bubble =  colorSensor.getRawColor();
+    // NtHelper.setDouble("/robot/red", bubble.red);
 
-    if (colorSensor.isColor("Green")){
-      //** This function slows down motor speed to a quarter when the color green is spotted. */
-      leftMotor.setPercent(.25);
-      rightMotor.setPercent(.25);  
-    }else if (colorSensor.isColor("Carpet")){
-      leftMotor.setPercent(.50);
-      rightMotor.setPercent(.50);
-    }
+    // if (colorSensor.isColor("Green")){
+    //   //** This function slows down motor speed to a quarter when the color green is spotted. */
+    //   leftMotor.setPercent(.25);
+    //   rightMotor.setPercent(.25);  
+    // }else if (colorSensor.isColor("Carpet")){
+    //   leftMotor.setPercent(.50);
+    //   rightMotor.setPercent(.50);
+    // }
 
     
   }
