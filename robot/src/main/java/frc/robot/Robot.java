@@ -17,6 +17,7 @@ public class Robot extends TimedRobot {
   XboxController joystick = new XboxController(0);
   NeoMotor leftMotor = new NeoMotor(3);
   NeoMotor rightMotor = new NeoMotor(4);
+  MarioStates marioStates = new MarioStates();
 
   private static ColorSensor colorSensor = new ColorSensor();
 
@@ -66,6 +67,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
+    marioStates.run();
 
     System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
         + colorSensor.getRawColor().blue);
