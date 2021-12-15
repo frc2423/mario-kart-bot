@@ -14,9 +14,9 @@ import frc.robot.util.NtHelper;
 
 public class Robot extends TimedRobot {
 
-  XboxController joystick = new XboxController(0);
-  NeoMotor leftMotor = new NeoMotor(3);
-  NeoMotor rightMotor = new NeoMotor(4);
+  // XboxController joystick = new XboxController(0);
+  // NeoMotor leftMotor = new NeoMotor(3);
+  // NeoMotor rightMotor = new NeoMotor(4);
   MarioStates marioStates = new MarioStates();
 
   private static ColorSensor colorSensor = new ColorSensor();
@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    leftMotor.setInverted(true);
+    //leftMotor.setInverted(true);
   }
 
   @Override
@@ -74,12 +74,12 @@ public class Robot extends TimedRobot {
         + colorSensor.getRawColor().blue);
 
 
-    //this block applies a deadband to the controler speeds and makes speed gradual (no wheelies)
-    double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), true);
-    double leftSpeed = DriveHelper.applyDeadband(arcadeSpeeds[0]);
-    double rightSpeed = DriveHelper.applyDeadband(arcadeSpeeds[1]);
-    leftMotor.setPercent(leftSpeed);
-    rightMotor.setPercent(rightSpeed);
+    // //this block applies a deadband to the controler speeds and makes speed gradual (no wheelies)
+    // double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), true);
+    // double leftSpeed = DriveHelper.applyDeadband(arcadeSpeeds[0]);
+    // double rightSpeed = DriveHelper.applyDeadband(arcadeSpeeds[1]);
+    // leftMotor.setPercent(leftSpeed);
+    // rightMotor.setPercent(rightSpeed);
 
 
     System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
@@ -88,14 +88,14 @@ public class Robot extends TimedRobot {
     Color bubble =  colorSensor.getRawColor();
     NtHelper.setDouble("/robot/red", bubble.red);
 
-    if (colorSensor.isColor("Green")){
-      //** This function slows down motor speed to a quarter when the color green is spotted. */
-      leftMotor.setPercent(.25);
-      rightMotor.setPercent(.25);  
-    }else if (colorSensor.isColor("Carpet")){
-      leftMotor.setPercent(.50);
-      rightMotor.setPercent(.50);
-    }
+    // if (colorSensor.isColor("Green")){
+    //   //** This function slows down motor speed to a quarter when the color green is spotted. */
+    //   leftMotor.setPercent(.25);
+    //   rightMotor.setPercent(.25);  
+    // }else if (colorSensor.isColor("Carpet")){
+    //   leftMotor.setPercent(.50);
+    //   rightMotor.setPercent(.50);
+    // }
 
     
   }
