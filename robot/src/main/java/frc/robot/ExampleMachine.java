@@ -11,7 +11,7 @@ public class ExampleMachine extends StateMachine {
     private int i = 0;
   
     public ExampleMachine() {
-      this.setState("State1");
+      super("State1");
     }
   
     @InitState(name = "State1")
