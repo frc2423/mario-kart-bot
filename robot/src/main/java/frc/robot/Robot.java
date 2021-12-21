@@ -19,8 +19,6 @@ public class Robot extends TimedRobot {
   // NeoMotor rightMotor = new NeoMotor(4);
   MarioStates marioStates = new MarioStates();
 
-  private static ColorSensor colorSensor = new ColorSensor();
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -28,7 +26,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    //leftMotor.setInverted(true);
   }
 
   @Override
@@ -51,12 +48,12 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     System.out.println("Teleop init");
     // set confidence interval
-    colorSensor.setConfidence(0.8);
-    colorSensor.addColor("Green", 0.25, .62, 0.13);
-    colorSensor.addColor("Yellow", 0.47, 0.47, 0.06);
-    colorSensor.addColor("Blue", 0, 0, 1);
-    colorSensor.addColor("Purple", 1, 0, 1);
-    colorSensor.addColor("Carpet", 0.33, 0.47, 0.2);
+    // colorSensor.setConfidence(0.8);
+    // colorSensor.addColor("Green", 0.25, .62, 0.13);
+    // colorSensor.addColor("Yellow", 0.47, 0.47, 0.06);
+    // colorSensor.addColor("Blue", 0, 0, 1);
+    // colorSensor.addColor("Purple", 1, 0, 1);
+    // colorSensor.addColor("Carpet", 0.33, 0.47, 0.2);
     // register colors
   }
 
@@ -70,9 +67,6 @@ public class Robot extends TimedRobot {
 
     marioStates.run();
 
-    System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
-        + colorSensor.getRawColor().blue);
-
 
     // //this block applies a deadband to the controler speeds and makes speed gradual (no wheelies)
     // double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), true);
@@ -82,11 +76,11 @@ public class Robot extends TimedRobot {
     // rightMotor.setPercent(rightSpeed);
 
 
-    System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
-        + colorSensor.getRawColor().blue);
+    // System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
+    //     + colorSensor.getRawColor().blue);
 
-    Color bubble =  colorSensor.getRawColor();
-    NtHelper.setDouble("/robot/red", bubble.red);
+    // Color bubble =  colorSensor.getRawColor();
+    // NtHelper.setDouble("/robot/red", bubble.red);
 
     // if (colorSensor.isColor("Green")){
     //   //** This function slows down motor speed to a quarter when the color green is spotted. */
