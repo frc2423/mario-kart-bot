@@ -23,6 +23,7 @@ public class MarioStates extends StateMachine {
         colorSensor.addColor("Blue", 0, 0, 1);
         colorSensor.addColor("Purple", 1, 0, 1);
         colorSensor.addColor("Carpet", 0.33, 0.47, 0.2);
+        leftMotor.setInverted(true);
     }
     
 
@@ -36,13 +37,17 @@ public class MarioStates extends StateMachine {
     public void runNormalState() {
         // code for normal state
 
+    // System.out.println("color " + colorSensor.getRawColor().red + "  " + colorSensor.getRawColor().green + "  "
+    // + colorSensor.getRawColor().blue);
+        System.out.println(colorSensor.getRawColor().red);
+
 
         // transition code to other 
         double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), true);
         double leftSpeed = DriveHelper.applyDeadband(arcadeSpeeds[0]);
         double rightSpeed = DriveHelper.applyDeadband(arcadeSpeeds[1]);
-        leftMotor.setPercent(leftSpeed);
-        rightMotor.setPercent(rightSpeed);
+        leftMotor.setPercent(leftSpeed * .8);
+        rightMotor.setPercent(rightSpeed * .8);
         boolean match = colorSensor.isColor("Green");
         if (match == true){
             setState("slow");
@@ -62,14 +67,16 @@ public class MarioStates extends StateMachine {
         double[] arcadeSpeeds = DriveHelper.getArcadeSpeeds(joystick.getY(), -joystick.getX(), true);
         double leftSpeed = DriveHelper.applyDeadband(arcadeSpeeds[0]);
         double rightSpeed = DriveHelper.applyDeadband(arcadeSpeeds[1]);
-        leftSpeed = leftSpeed / 2;
-        rightSpeed = rightSpeed / 2;
+        leftSpeed = leftSpeed * .4;
+        rightSpeed = rightSpeed * .4;
         leftMotor.setPercent(leftSpeed);
         rightMotor.setPercent(rightSpeed);
         if (StateTimer.get() > 5) {
             setState("normal");
 
         }
+
+        System.out.println(colorSensor.getRawColor().red + " " + colorSensor.getRawColor().green + " " + colorSensor.getRawColor().blue);
     }
 
 
