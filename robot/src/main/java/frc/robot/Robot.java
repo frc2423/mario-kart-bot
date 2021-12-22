@@ -15,11 +15,8 @@ import frc.robot.util.NtHelper;
 public class Robot extends TimedRobot {
 
   XboxController joystick = new XboxController(0);
-  NeoMotor leftMotor = new NeoMotor(3);
-  NeoMotor rightMotor = new NeoMotor(4);
   MarioStates marioStates = new MarioStates();
 
-  private static ColorSensor colorSensor = new ColorSensor();
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -28,7 +25,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    leftMotor.setInverted(true);
+    // leftMotor.setInverted(true);
   }
 
   @Override
@@ -51,12 +48,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     System.out.println("Teleop init");
     // set confidence interval
-    colorSensor.setConfidence(0.8);
-    colorSensor.addColor("Green", 0.25, .62, 0.13);
-    colorSensor.addColor("Yellow", 0.47, 0.47, 0.06);
-    colorSensor.addColor("Blue", 0, 0, 1);
-    colorSensor.addColor("Purple", 1, 0, 1);
-    colorSensor.addColor("Carpet", 0.33, 0.47, 0.2);
+
     // register colors
   }
 
